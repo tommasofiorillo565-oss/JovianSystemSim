@@ -20,7 +20,7 @@ class CorpoCeleste:
     #Scala: 300 pixel corrispondono a circa 2 milioni di km (l'orbita di Callisto)
     SCALE = 300 / 2e9
     # Ogni "tick" del programma fa avanzare il tempo di 6 ore
-    TIMESTEP = 3600 * 6
+    TIMESTEP = 3600
 
     def __init__ (self, x, y, radius, color, mass, name):
         self.x = x
@@ -107,13 +107,17 @@ def main():
         clock.tick(60) #60 frame per secondo
         WIN.fill((10, 10, 15)) #Sfondo a simulare lo spazio scuro
 
+        #Esegue la matematica 6 volte per ogni frame
+        for _ in range(6):
+            for corpo in corpi:
+                corpo.update_position(corpi)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
 
-        # Aggiorna e disegna
+        #Disegna solo alla fine dei calcoli
         for corpo in corpi:
-            corpo.update_position(corpi)
             corpo.draw(WIN)
 
         pygame.display.update()
